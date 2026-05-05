@@ -8,28 +8,7 @@
 }
 
 :root {
-    /* Theme Variables */
-    --bg: #050508;
-    --surface: #0a0a0f;
-    --surface-elevated: #111118;
-    --primary: #FFD602;
-    --accent: #FFD602;
-    --text-primary: #F8FAFC;
-    --text-secondary: #94A3B8;
-    --text-muted: #64748B;
-    --border: rgba(255, 214, 2, 0.1);
-    --border-muted: rgba(255, 255, 255, 0.05);
-    --gold: #FFD602;
-    --gold-glow: rgba(255, 214, 2, 0.15);
-    --star-color: #fff;
-    
-    /* Motion */
-    --expo-out: cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-main: 700ms var(--expo-out);
-    --transition-micro: 250ms var(--expo-out);
-}
-
-[data-theme='light'] {
+    /* Theme Variables (Light Mode Default) */
     --bg: #FDFCF8;
     --surface: #F7F5EE;
     --surface-elevated: #EEEADC;
@@ -43,6 +22,27 @@
     --gold: #B8860B;
     --gold-glow: rgba(184, 134, 11, 0.1);
     --star-color: rgba(20, 43, 111, 0.25);
+    
+    /* Motion */
+    --expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-main: 700ms var(--expo-out);
+    --transition-micro: 250ms var(--expo-out);
+}
+
+[data-theme='dark'] {
+    --bg: #050508;
+    --surface: #0a0a0f;
+    --surface-elevated: #111118;
+    --primary: #FFD602;
+    --accent: #FFD602;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --border: rgba(255, 214, 2, 0.1);
+    --border-muted: rgba(255, 255, 255, 0.05);
+    --gold: #FFD602;
+    --gold-glow: rgba(255, 214, 2, 0.15);
+    --star-color: #fff;
 }
 
 * {
@@ -52,18 +52,19 @@
 }
 
 ::selection {
-    background: var(--gold-glow);
-    color: var(--gold);
-}
-
-[data-theme='light'] ::selection {
     background: var(--primary);
     color: #fff;
+}
+
+[data-theme='dark'] ::selection {
+    background: var(--gold-glow);
+    color: var(--gold);
 }
 
 html {
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
+    height: 100%;
 }
 
 /* Subtle Grid Background */
@@ -236,6 +237,7 @@ nav {
 
 @media (max-width: 768px) {
     .nav-right { gap: 1rem; }
+    .nav-right img { height: 36px !important; }
 }
 
 /* Hero */
@@ -937,10 +939,10 @@ footer {
 }
 
 .skeleton-vignette {
-    height: 300px;
+    height: auto;
+    min-height: 300px;
     background: var(--bg);
     border: 1px solid var(--border-muted);
-    border-radius: 12px;
 }
 
 .skeleton-entry {

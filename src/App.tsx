@@ -22,9 +22,9 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     if (typeof window !== 'undefined') {
-      return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
+      return (localStorage.getItem('theme') as 'dark' | 'light') || 'light';
     }
-    return 'dark';
+    return 'light';
   });
 
   useEffect(() => {
@@ -114,7 +114,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              AGT Hub — Bridging the gap between timeless faith and modern engineering talent at ASTU.
+              መክሊታችንን ለቤተ ክርስትያናችን — Our talents for our Church. Turning gifts into service and vision into action at ASTU.
             </motion.p>
             <motion.div 
               className="hero-ctas"
@@ -256,7 +256,7 @@ export default function App() {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             >
               <h2 className="section-title cinzel">The Philosophy</h2>
-              <p className="section-subtitle">Rooted in tradition, scaling with technology.</p>
+              <p className="section-subtitle">መክሊታችንን ለቤተ ክርስትያናችን — Our talents for our Church.</p>
             </motion.div>
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
@@ -265,10 +265,10 @@ export default function App() {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             >
               <p style={{ fontSize: '24px', color: 'var(--gold)', marginBottom: '2rem', fontStyle: 'italic' }}>
-                "Empowering the next generation of Christian technologists to serve through excellence."
+                "AGT Hub is a faith-driven platform built on the belief that every talent is a gift meant to serve a greater purpose."
               </p>
               <div style={{ maxWidth: '800px', color: 'var(--text-secondary)' }}>
-                <p style={{ marginBottom: '2rem' }}>AGT Hub is an innovation ecosystem within ASTU Gibi Gubaie, supported by Mahbere Kidusan. We believe that technology is a powerful tool to preserve and propagate our sacred heritage in the digital age.</p>
+                <p style={{ marginBottom: '2rem' }}>Inspired by the philosophy “መክሊታችንን ለቤተ ክርስትያናችን”, we bring together individuals who are ready to use their skills in creativity, technology, and leadership to strengthen and support the Church. We transform personal ability into collective impact—turning gifts into service and vision into action.</p>
                 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                   <span className="tag">ASTU Gibi Gubaie</span>
                   <span className="tag">Mahbere Kidusan</span>

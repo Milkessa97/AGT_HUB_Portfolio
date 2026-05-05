@@ -107,6 +107,23 @@ export const googleSheetsService = {
 
   async getWinners(): Promise<Winner[]> {
     const rawData = await fetchSheetData('Winners');
+    
+    // Utility to transform Google Drive "view" links to direct download links
+    const transformDriveLink = (url: string) => {
+      if (!url) return '';
+      // Support for drive.google.com/file/d/ID/...
+      const fileMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (fileMatch && fileMatch[1]) {
+        return `https://lh3.googleusercontent.com/d/${fileMatch[1]}`;
+      }
+      // Support for drive.google.com/open?id=ID
+      const idMatch = url.match(/id=([a-zA-Z0-9_-]+)/);
+      if (idMatch && idMatch[1]) {
+        return `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
+      }
+      return url;
+    };
+
     return rawData.map(item => {
       const name = item.name || item.Name || '';
       const award = item.award || item.Award || '';
@@ -123,7 +140,7 @@ export const googleSheetsService = {
         category: String(item.category || item.Category || ''),
         github_url: String(item.github_url || item.github || ''),
         portfolio_url: String(item.portfolio_url || item.portfolio || ''),
-        image: String(image),
+        image: transformDriveLink(String(image)),
         year: String(year)
       };
     });

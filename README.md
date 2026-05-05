@@ -3,7 +3,7 @@
 <img src="./public/AGT_HUB_Logo.png" width="200" alt="AGT HUB Logo" />
 
 # ⚜️ AGT HUB PORTFOLIO ⚜️
-### *Sacred Tradition. Digital Frontier.*
+### *መክሊታችንን ለቤተ ክርስትያናችን — Our talents for our Church.*
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -12,14 +12,13 @@
 
 ---
 
-**AGT Hub** is an innovation ecosystem within **ASTU Gibi Gubaie**, supported by **Mahbere Kidusan**. This portfolio serves as a digital bridge between timeless faith and modern engineering excellence.
+**AGT Hub** is a faith-driven platform built on the belief that every talent is a gift meant to serve a greater purpose. Inspired by the philosophy **“መክሊታችንን ለቤተ ክርስትያናችን”** (Our talents for our Church), it brings together individuals who are ready to use their skills to strengthen and support the Church.
 
 [Explore Archives](#-project-archives) • [Meet Laureates](#-the-laureates) • [View Chronology](#-chronology) • [Philosophy](#-the-philosophy)
 
 </div>
 
-## 🌌 The Vision
-We believe that technology is a powerful tool to preserve and propagate sacred heritage in the digital age. AGT Hub empowers the next generation of Christian technologists to serve through excellence, rooted in tradition and scaling with innovation.
+By connecting creativity, technology, leadership, and service, AGT Hub transforms personal ability into collective impact. It is a space where talents are not only discovered, but directed—toward meaningful contribution, collaboration, and spiritual growth. AGT Hub exists to turn gifts into service and vision into action—for the good of the Church and the community it serves.
 
 ---
 

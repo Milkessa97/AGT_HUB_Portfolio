@@ -15,7 +15,15 @@ export const ProjectSkeleton = () => (
 );
 
 export const WinnerSkeleton = () => (
-  <div className="skeleton skeleton-vignette" />
+  <div className="winner-vignette skeleton-vignette" style={{ display: 'flex', gap: '2.5rem', alignItems: 'flex-start' }}>
+    <div className="skeleton" style={{ width: '120px', height: '120px', borderRadius: '12px', flexShrink: 0 }} />
+    <div style={{ flex: 1 }}>
+      <div className="skeleton skeleton-category" style={{ width: '40%', marginBottom: '1rem' }} />
+      <div className="skeleton skeleton-title" style={{ width: '60%', height: '32px' }} />
+      <div className="skeleton skeleton-text" style={{ width: '100%', marginTop: '2rem' }} />
+      <div className="skeleton skeleton-text" style={{ width: '90%', marginTop: '0.5rem' }} />
+    </div>
+  </div>
 );
 
 export const TimelineSkeleton = () => (

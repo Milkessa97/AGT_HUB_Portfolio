@@ -46,6 +46,12 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled, theme, toggleTheme }
                             </motion.div>
                         </AnimatePresence>
                     </button>
+
+                    <img 
+                        src="/mk-logo-300.png" 
+                        alt="Mahbere Kidusan Logo" 
+                        style={{ height: '44px', width: 'auto', marginLeft: '0.5rem' }} 
+                    />
                 </div>
             </div>
         </nav>
