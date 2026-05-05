@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Analytics } from '@vercel/analytics/react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { StarField } from './components/StarField';
@@ -281,6 +282,7 @@ export default function App() {
       </main>
 
       <Footer />
+      <Analytics />
     </div>
   );
 }
