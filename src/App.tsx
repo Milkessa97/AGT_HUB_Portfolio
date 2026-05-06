@@ -6,6 +6,8 @@ import { StarField } from './components/StarField';
 import { ProjectCard } from './components/ProjectCard';
 import { WinnerVignette } from './components/WinnerVignette';
 import { TimelineEntry } from './components/TimelineEntry';
+import { TechStack } from './components/TechStack';
+import { JoinFrontier } from './components/JoinFrontier';
 import { ProjectSkeleton, WinnerSkeleton, TimelineSkeleton } from './components/Skeletons';
 import { googleSheetsService } from './services/googleSheets';
 import { Project, Winner, TimelineEvent } from './types';
@@ -125,6 +127,8 @@ export default function App() {
               <a href="#projects" className="btn btn-filled">Explore Archives</a>
               <a href="#winners" className="btn btn-outline">Meet Laureates</a>
             </motion.div>
+
+            <TechStack />
           </div>
         </section>
 
@@ -211,7 +215,7 @@ export default function App() {
             </div>
           </div>
         </section>
-
+          
         <section className="timeline-section" id="journey">
           <div className="container">
             <motion.div 
@@ -241,7 +245,7 @@ export default function App() {
               transition={{ delay: 0.5 }}
             >
               <div className="pulse-dot" />
-              <div className="cooking-up-text mono">Cooking up next chapter...</div>
+              <div className="cooking-up-text mono">Planning next chapter...</div>
             </motion.div>
           </div>
         </section>
@@ -278,8 +282,9 @@ export default function App() {
             </motion.div>
           </div>
         </section>
+        <JoinFrontier />
       </main>
-
+            
       <Footer />
     </div>
   );
