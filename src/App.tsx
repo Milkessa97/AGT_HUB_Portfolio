@@ -23,63 +23,43 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(!!SHEET_ID);
   const [error, setError] = useState<string | null>(null);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem('theme') as 'dark' | 'light') || 'light';
-    }
-    return 'light';
+    const saved = localStorage.getItem('theme');
+    return (saved as 'dark' | 'light') || 'dark';
   });
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
   useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
-    
-    // Fetch data from Google Sheets only if ID is provided
-    const loadData = async () => {
-      if (!SHEET_ID) {
-        setIsLoading(false);
-        return;
-      }
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-      setIsLoading(true);
-      setError(null);
+  useEffect(() => {
+    if (!SHEET_ID) return;
+
+    const loadData = async () => {
       try {
-        const [sheetProjects, sheetWinners, sheetEvents] = await Promise.all([
+        const [projectsData, winnersData, eventsData] = await Promise.all([
           googleSheetsService.getProjects(),
           googleSheetsService.getWinners(),
           googleSheetsService.getTimelineEvents()
         ]);
-
-        const hasAnyData = sheetProjects.length > 0 || sheetWinners.length > 0 || sheetEvents.length > 0;
-        
-        if (hasAnyData) {
-          if (sheetProjects.length > 0) setProjects(sheetProjects);
-          else setProjects(MOCK_PROJECTS);
-          
-          if (sheetWinners.length > 0) setWinners(sheetWinners);
-          else setWinners(MOCK_WINNERS);
-          
-          if (sheetEvents.length > 0) setEvents(sheetEvents);
-          else setEvents(MOCK_EVENTS);
-        } else {
-          setError("No data found in your Google Sheets. Using fallback archives.");
-          setProjects(MOCK_PROJECTS);
-          setWinners(MOCK_WINNERS);
-          setEvents(MOCK_EVENTS);
-        }
-      } catch (err: any) {
-        console.error("Failed to load data from Google Sheets:", err);
-        setError("Connection error. Using fallback archives.");
+        setProjects(projectsData);
+        setWinners(winnersData);
+        setEvents(eventsData);
+      } catch (err) {
+        console.error('Failed to load sheet data:', err);
+        setError('Connection to Sacred Archives lost. Using localized cache.');
         setProjects(MOCK_PROJECTS);
         setWinners(MOCK_WINNERS);
         setEvents(MOCK_EVENTS);
@@ -89,8 +69,6 @@ export default function App() {
     };
 
     loadData();
-
-    return () => window.removeEventListener('scroll', handleScroll);
   }, [SHEET_ID]);
 
   const filteredProjects = projects.filter(p => filter === 'All' || p.category === filter);
@@ -116,7 +94,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              መክሊታችንን ለቤተ ክርስትያናችን — Our talents for our Church. Turning gifts into service and vision into action at ASTU.
+              Our talents for our Church. Turning gifts into service and vision into action at ASTU.
             </motion.p>
             <motion.div 
               className="hero-ctas"

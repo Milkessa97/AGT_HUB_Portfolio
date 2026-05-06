@@ -207,23 +207,45 @@ export const JoinFrontier = () => {
               <AnimatePresence>
                 {status === 'success' && (
                   <motion.div 
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="email-success-notice"
-                    style={{ 
-                      marginBottom: '1.5rem', 
-                      padding: '1rem', 
-                      background: 'rgba(255, 215, 0, 0.05)', 
-                      border: '1px solid var(--gold)',
-                      borderRadius: '8px',
-                      textAlign: 'center'
-                    }}
+                    className="success-modal-overlay"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                   >
-                    <p style={{ color: 'var(--gold)', fontSize: '0.85rem', margin: 0 }}>
-                      <strong>Mission Confirmed!</strong><br/>
-                      A welcome email has been sent to <strong>{formData.email}</strong>.
-                    </p>
+                    <motion.div 
+                      className="success-modal"
+                      initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                      animate={{ scale: 1, opacity: 1, y: 0 }}
+                      exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                      transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                    >
+                      <div className="modal-icon-wrapper">
+                        <CheckCircle2 size={48} color="var(--gold)" />
+                        <div className="icon-pulse" />
+                      </div>
+                      <h3 className="cinzel">Transmission Received</h3>
+                      <p>
+                        Your mission has been acknowledged. A welcome email is currently being transmitted to <strong>{formData.email}</strong>.
+                      </p>
+                      <div className="modal-footer mono">
+                        <span>ESTABLISHING CONNECTION...</span>
+                        <div className="loading-bar">
+                          <motion.div 
+                            className="loading-bar-fill"
+                            initial={{ width: "0%" }}
+                            animate={{ width: "100%" }}
+                            transition={{ duration: 5, ease: "linear" }}
+                          />
+                        </div>
+                      </div>
+                      <button 
+                        className="btn btn-outline" 
+                        onClick={() => setStatus('idle')}
+                        style={{ marginTop: '2rem', width: '100%' }}
+                      >
+                        Dismiss
+                      </button>
+                    </motion.div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -240,7 +262,7 @@ export const JoinFrontier = () => {
                     </motion.span>
                   ) : status === 'success' ? (
                     <motion.span key="success" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex-center gap-2">
-                      <CheckCircle2 size={18} /> Joined!
+                      <CheckCircle2 size={18} /> Sent
                     </motion.span>
                   ) : (
                     <motion.span key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex-center gap-2">
