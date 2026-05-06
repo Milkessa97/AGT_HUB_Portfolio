@@ -71,12 +71,12 @@ export const JoinFrontier = () => {
         setStatus('success');
       }
 
-      // Reset form after 3 seconds on success
+      // Reset form after 6 seconds on success to allow time to read email notice
       setTimeout(() => {
         setStatus('idle');
         setFormData({ name: '', email: '', role: 'Developer', message: '' });
         setErrors({});
-      }, 3000);
+      }, 6000);
 
     } catch (error) {
       console.error('Submission error:', error);
@@ -204,6 +204,30 @@ export const JoinFrontier = () => {
                 </AnimatePresence>
               </div>
               
+              <AnimatePresence>
+                {status === 'success' && (
+                  <motion.div 
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="email-success-notice"
+                    style={{ 
+                      marginBottom: '1.5rem', 
+                      padding: '1rem', 
+                      background: 'rgba(255, 215, 0, 0.05)', 
+                      border: '1px solid var(--gold)',
+                      borderRadius: '8px',
+                      textAlign: 'center'
+                    }}
+                  >
+                    <p style={{ color: 'var(--gold)', fontSize: '0.85rem', margin: 0 }}>
+                      <strong>Mission Confirmed!</strong><br/>
+                      A welcome email has been sent to <strong>{formData.email}</strong>.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <button 
                 type="submit" 
                 className={`btn btn-filled submit-btn ${status}`}
