@@ -100,7 +100,7 @@ export default function App() {
       <Navbar isScrolled={isScrolled} theme={theme} toggleTheme={toggleTheme} />
 
       <main>
-        <section className="hero">
+        <section className="hero" id="hero">
           <StarField />
           <div className="container-fluid hero-content">
             <motion.h1 

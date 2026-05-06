@@ -85,7 +85,7 @@ export const JoinFrontier = () => {
   };
 
   return (
-    <section className="join-frontier-section" id="join">
+    <section className="join-frontier-section" id="join-us">
       <div className="container">
         <div className="join-grid">
           <motion.div 
