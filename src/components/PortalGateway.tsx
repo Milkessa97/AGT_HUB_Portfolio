@@ -15,11 +15,20 @@ export function PortalGateway({ onAuthorized }: PortalGatewayProps) {
   const [isVerifying, setIsVerifying] = useState(false);
 
   const handleSuccess = async (credentialResponse: any) => {
+    if (!credentialResponse?.credential) {
+      setError('No credential received from Google.');
+      return;
+    }
+
     setIsVerifying(true);
     setError(null);
     try {
       const decoded: any = jwtDecode(credentialResponse.credential);
-      const userEmail = decoded.email.toLowerCase();
+      const userEmail = decoded.email?.toLowerCase();
+
+      if (!userEmail) {
+        throw new Error('Email not found in token');
+      }
 
       const authorizedUsers = await googleSheetsService.getAuthorizedUsers();
       const isAuthorized = authorizedUsers.some(u => u.email === userEmail);
@@ -31,7 +40,7 @@ export function PortalGateway({ onAuthorized }: PortalGatewayProps) {
       }
     } catch (err) {
       console.error('Auth error:', err);
-      setError('Verification failed. Please try again.');
+      setError('Verification failed. Please ensure your email is on the whitelist.');
     } finally {
       setIsVerifying(false);
     }
@@ -63,7 +72,6 @@ export function PortalGateway({ onAuthorized }: PortalGatewayProps) {
           <GoogleLogin
             onSuccess={handleSuccess}
             onError={() => setError('Login failed. Please try again.')}
-            useOneTap
             theme="filled_black"
             shape="pill"
             text="signin_with"
