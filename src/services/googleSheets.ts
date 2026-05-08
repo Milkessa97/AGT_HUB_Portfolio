@@ -171,7 +171,6 @@ export const googleSheetsService = {
       role: String(item.role || ''),
       contributions: typeof item.contributions === 'string' ? item.contributions.split(',').map((c: string) => c.trim()).filter(Boolean) : [],
       skills: typeof item.skills === 'string' ? item.skills.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
-      availability: (item.availability as any) || 'Available',
       contact: String(item.contact || ''),
       image: String(item.image || ''),
       github_url: item.github_url ? String(item.github_url) : undefined,

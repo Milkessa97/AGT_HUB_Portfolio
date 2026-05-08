@@ -13,6 +13,7 @@ export interface Winner {
   name: string;
   award: string;
   quote: string;
+  year: string;
   rank: string;
   category: string;
   github_url: string;
@@ -33,7 +34,6 @@ export interface Member {
   role: string;
   contributions: string[];
   skills: string[];
-  availability: 'Available' | 'Employed' | 'Freelance';
   contact: string;
   image?: string;
   github_url?: string;

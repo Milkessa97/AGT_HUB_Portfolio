@@ -1,14 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { googleSheetsService } from '../services/googleSheets';
 import { Member } from '../types';
 import { StarField } from '../components/StarField';
-import { Search, Github, Globe, Mail, ChevronRight, UserCircle2, ExternalLink, Sun, Moon } from 'lucide-react';
+import { Search, Github, Mail, ChevronRight, UserCircle2, ExternalLink, Sun, Moon } from 'lucide-react';
 
 interface MemberCardProps {
   member: Member;
   index: number;
-  key:string;
 }
 
 interface MembersPortalProps {
@@ -51,11 +50,18 @@ export function MembersPortal({ theme, toggleTheme }: MembersPortalProps) {
     };
   }, []);
 
+  // Extract unique skills for filtering
+  const allSkills = useMemo(() => {
+    const skills = new Set<string>();
+    members.forEach(m => m.skills.forEach(s => skills.add(s)));
+    return ['All', ...Array.from(skills).sort()];
+  }, [members]);
+
   const filteredMembers = members.filter(m => {
     const matchesSearch = m.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           m.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           m.skills.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesFilter = activeFilter === 'All' || m.availability === activeFilter;
+    const matchesFilter = activeFilter === 'All' || m.skills.includes(activeFilter);
     return matchesSearch && matchesFilter;
   });
 
@@ -125,19 +131,22 @@ export function MembersPortal({ theme, toggleTheme }: MembersPortalProps) {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
+          </div>
+        </div>
 
-            <div className="filter-chips">
-              {['All', 'Available', 'Employed', 'Freelance'].map(filter => (
+        <div className="filter-row">
+           <div className="filter-label mono text-xs">Filter by Expertise:</div>
+           <div className="filter-chips">
+              {allSkills.map(skill => (
                 <button 
-                  key={filter}
-                  className={`chip ${activeFilter === filter ? 'active' : ''}`}
-                  onClick={() => setActiveFilter(filter)}
+                  key={skill}
+                  className={`chip ${activeFilter === skill ? 'active' : ''}`}
+                  onClick={() => setActiveFilter(skill)}
                 >
-                  {filter}
+                  {skill}
                 </button>
               ))}
             </div>
-          </div>
         </div>
 
         <div className="members-grid">
@@ -146,7 +155,7 @@ export function MembersPortal({ theme, toggleTheme }: MembersPortalProps) {
           ) : (
             <AnimatePresence mode='popLayout'>
               {filteredMembers.map((member, index) => (
-                <MemberCard key={member.id || `member-${index}`} member={member} index={index} />
+                <MemberCard member={member} index={index} />
               ))}
             </AnimatePresence>
           )}
@@ -154,7 +163,7 @@ export function MembersPortal({ theme, toggleTheme }: MembersPortalProps) {
 
         {!isLoading && filteredMembers.length === 0 && (
           <div className="empty-state">
-            <p>No members match your current search or filter.</p>
+            <p>No members match your current selection.</p>
           </div>
         )}
       </main>
@@ -236,7 +245,7 @@ export function MembersPortal({ theme, toggleTheme }: MembersPortalProps) {
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
-          margin-bottom: 4rem;
+          margin-bottom: 2rem;
           gap: 2rem;
           flex-wrap: wrap;
         }
@@ -256,7 +265,7 @@ export function MembersPortal({ theme, toggleTheme }: MembersPortalProps) {
 
         .search-bar {
           position: relative;
-          width: 300px;
+          width: 320px;
         }
 
         .search-icon {
@@ -284,33 +293,46 @@ export function MembersPortal({ theme, toggleTheme }: MembersPortalProps) {
           box-shadow: 0 0 15px var(--gold-glow);
         }
 
+        .filter-row {
+          margin-bottom: 4rem;
+        }
+
+        .filter-label {
+          color: var(--gold);
+          margin-bottom: 1rem;
+          opacity: 0.6;
+        }
+
         .filter-chips {
           display: flex;
-          gap: 0.5rem;
+          gap: 0.75rem;
+          flex-wrap: wrap;
         }
 
         .chip {
           background: var(--surface);
           border: 1px solid var(--border-muted);
           color: var(--text-secondary);
-          padding: 0.5rem 1rem;
-          border-radius: 4px;
+          padding: 0.5rem 1.25rem;
+          border-radius: 20px;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all 0.3s var(--expo-out);
           font-size: 0.75rem;
-          font-weight: 600;
-          text-transform: uppercase;
+          font-weight: 500;
           letter-spacing: 0.05em;
         }
 
         .chip:hover {
           border-color: var(--gold);
+          transform: translateY(-2px);
+          color: var(--text-primary);
         }
 
         .chip.active {
           background: var(--gold);
           border-color: var(--gold);
           color: var(--bg);
+          box-shadow: 0 8px 16px var(--gold-glow);
         }
 
         .members-grid {
@@ -348,10 +370,6 @@ export function MembersPortal({ theme, toggleTheme }: MembersPortalProps) {
           }
           .search-bar {
             width: 100%;
-          }
-          .filter-chips {
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
           }
           .members-grid {
             grid-template-columns: 1fr;
@@ -396,10 +414,6 @@ function MemberCard({ member, index }: MemberCardProps) {
             <UserCircle2 size={64} strokeWidth={1} />
           </div>
         )}
-        <div className="member-card-badge">
-           <span className={`status-dot ${member.availability.toLowerCase()}`} />
-           <span className="mono text-xs">{member.availability}</span>
-        </div>
       </div>
 
       <div className="project-category" style={{ marginBottom: '0.5rem' }}>{member.role}</div>
@@ -478,30 +492,6 @@ function MemberCard({ member, index }: MemberCardProps) {
           color: var(--gold);
           opacity: 0.3;
         }
-
-        .member-card-badge {
-          position: absolute;
-          bottom: 1rem;
-          right: 1rem;
-          background: color-mix(in srgb, var(--bg), transparent 15%);
-          backdrop-filter: blur(12px);
-          padding: 0.5rem 1rem;
-          border-radius: 4px;
-          border: 1px solid var(--border-muted);
-          display: flex;
-          align-items: center;
-          gap: 0.6rem;
-          box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        }
-
-        .status-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-        }
-        .status-dot.available { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
-        .status-dot.employed { background: #64748b; }
-        .status-dot.freelance { background: #3b82 Cameronf6; box-shadow: 0 0 10px #3b82f6; }
 
         .member-contributions-list {
           display: flex;
