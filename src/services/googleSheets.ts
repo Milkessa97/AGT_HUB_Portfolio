@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import { Project, Winner, TimelineEvent } from '../types';
+import { Project, Winner, TimelineEvent, Member, AuthorizedUser } from '../types';
 
 const SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID;
 
@@ -161,5 +161,28 @@ export const googleSheetsService = {
         description: String(description),
       };
     });
+  },
+
+  async getMembers(): Promise<Member[]> {
+    const rawData = await fetchSheetData('Members');
+    return rawData.map(item => ({
+      id: String(item.id || ''),
+      name: String(item.name || ''),
+      role: String(item.role || ''),
+      contributions: typeof item.contributions === 'string' ? item.contributions.split(',').map((c: string) => c.trim()).filter(Boolean) : [],
+      skills: typeof item.skills === 'string' ? item.skills.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
+      availability: (item.availability as any) || 'Available',
+      contact: String(item.contact || ''),
+      image: String(item.image || ''),
+      github_url: item.github_url ? String(item.github_url) : undefined,
+      portfolio_url: item.portfolio_url ? String(item.portfolio_url) : undefined,
+    }));
+  },
+
+  async getAuthorizedUsers(): Promise<AuthorizedUser[]> {
+    const rawData = await fetchSheetData('AuthorizedUsers');
+    return rawData.map(item => ({
+      email: String(item.email || '').toLowerCase().trim(),
+    }));
   }
 };

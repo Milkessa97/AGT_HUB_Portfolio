@@ -26,3 +26,20 @@ export interface TimelineEvent {
   type: string;
   description: string;
 }
+
+export interface Member {
+  id: string;
+  name: string;
+  role: string;
+  contributions: string[];
+  skills: string[];
+  availability: 'Available' | 'Employed' | 'Freelance';
+  contact: string;
+  image?: string;
+  github_url?: string;
+  portfolio_url?: string;
+}
+
+export interface AuthorizedUser {
+  email: string;
+}
